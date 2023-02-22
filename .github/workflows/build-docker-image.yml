@@ -1,0 +1,42 @@
+name: Publish Docker image
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      
+      - name: Set environment variable
+        run: echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
+
+      - name: Test environment variable
+        run: echo ${{ env.RELEASE_VERSION }}
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker-compose -f docker-compose.yml build --no-cache server
+          docker-compose push server
+
+      - name: Scan Docker image
+        uses: aquasecurity/trivy-action@master
+        continue-on-error: true 
+        with:
+          image-ref: 'docker.io/christophepesin/test-slim4-server:v${{ env.RELEASE_VERSION }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'

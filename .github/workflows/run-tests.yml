@@ -25,19 +25,19 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install Dependencies
-      run: make install
+      run: composer install
 
     - name: Create Database
       run: |
-        make schema_create
-        make load_fixtures
+        vendor/bin/doctrine orm:schema-tool:create
+        php bin/console load:fixtures
 
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: make phpunit
+      run: vendor/bin/phpunit -c phpunit.xml.dist
 
     - name: Execute tests via PHPStan
-      run: make phpstan
+      run: vendor/bin/phpstan analyse --xdebug
 
     - name: Execute tests via PHP-CS
-      run: make phpcs
+      run: vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php
       

@@ -1,0 +1,30 @@
+{% extends "layout.twig" %}
+
+{% block title %}Formulaire de contact{% endblock %}
+
+{% block body %}
+    <h2>Formulaire de contact</h2>
+    <div class="contact">
+        {% include '_partials/_messages.twig' %}
+        <form name="form" method="post">
+            <div id="form">
+                <div class="form-floating">
+                    <input type="text" id="form_name" name="form[name]" placeholder="Nom" value="{{ name }}" class="form-control" />
+                    <label for="form_name" class="form-label required">Nom</label>        
+                </div>
+                <div class="form-floating">
+                    <input type="email" id="form_email" name="form[email]" placeholder="Email" value="{{ email }}" class="form-control" />
+                    <label for="form_email" class="form-label required">Email</label>        
+                </div>
+                <div class="form-floating">
+                    <textarea id="form_message" name="form[message]" placeholder="Message" class="form-control">{{ message }}</textarea>
+                    <label for="form_message" class="form-label required">Message</label>        
+                </div>
+                <div class="mb-3">
+                    <button type="submit" id="form_submit" name="form[submit]" class="btn-primary btn">Submit</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}

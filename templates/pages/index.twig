@@ -1,0 +1,25 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<div class="card border-secondary mb-3">
+  <div class="card-header">Dernier article <em>({{ lastArticle.created | format_datetime(locale='fr') }})</em></div>
+  <div class="card-body">
+    <h4 class="card-title">{{ lastArticle.title }}</h4>
+    <div class="card-text">
+        <p>{{ lastArticle.text }}</p>
+        <p class="author">{{ lastArticle.author.firstname }} {{ lastArticle.author.lastname }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="card border-secondary mb-3">
+  <div class="card-header">README.md</em></div>
+  <div class="card-body">
+    <div class="card-text">
+        {% apply markdown_to_html %}{{ readme }}{% endapply %}
+    </div>
+  </div>
+</div>
+{% endblock %}

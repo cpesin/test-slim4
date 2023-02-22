@@ -1,0 +1,18 @@
+        {% if messages.error %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for message in messages.error %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if messages.success %}
+            <div class="alert alert-success">
+                <ul>
+                    {% for message in messages.success %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}

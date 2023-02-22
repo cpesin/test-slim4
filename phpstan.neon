@@ -1,0 +1,11 @@
+parameters:
+	level: 5
+	paths:
+		- src
+		- public
+		- config
+		- bin
+	ignoreErrors:
+		- '#Call to an undefined method Faker\\Generator::firstname\(\)\.#'
+		- '#Call to an undefined method Faker\\Generator::lastname\(\)\.#'
+		- '#Parameter \$repositoryClass of attribute class Doctrine\\ORM\\Mapping\\Entity constructor expects (.*)\.#'

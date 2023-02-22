@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+
+  server:
+    image: christophepesin/test-slim4-server:v1.0.0
+    build:
+      context: .
+      dockerfile: ./tools/docker/php/Dockerfile
+    container_name: test-slim-server
+    volumes:
+      - ./:/var/www/html:rw
+    links:
+      - mysql
+    ports:
+      - 80:80
+
+  mysql:
+    image: mysql:8.0
+    container_name: test-slim-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: resu
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: test-slim-phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=toor
+    links:
+      - mysql
+    ports:
+      - 8090:80
+
+  mailer:
+    image: schickling/mailcatcher
+    container_name: test-slim-mailcatcher
+    ports: 
+      - 1025:1025
+      - 1080:1080
